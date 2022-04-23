@@ -10,34 +10,45 @@ import {
   Div,
   ButtonGroup,
 } from "@vkontakte/vkui";
+import { useSelector } from "react-redux";
 
-const Home = ({ id, go }) => (
-  <Panel id={id}>
-    <PanelHeader>Находка для шпиона</PanelHeader>
+const Home = ({ id, go }) => {
+  const gameIsStarted = useSelector((state) => state.game.value);
 
-    <Group>
-      <Div>
-        <ButtonGroup mode="horizontal" gap="m" stretched>
-          <Button stretched size="m" mode="outline" onClick={go} data-to="game">
-            Начать игру
-          </Button>
-          <Button
-            size="m"
-            mode="outline"
-            onClick={() =>
-              window.open(
-                "https://www.mosigra.ru/image/data/mosigra.product.other/543/674/SPY_rules_new.pdf",
-                "_blank"
-              )
-            }
-          >
-            <Icon24InfoCircleOutline />
-          </Button>
-        </ButtonGroup>
-      </Div>
-    </Group>
-  </Panel>
-);
+  return (
+    <Panel id={id}>
+      <PanelHeader>Находка для шпиона</PanelHeader>
+
+      <Group>
+        <Div>
+          <ButtonGroup mode="horizontal" gap="m" stretched>
+            <Button
+              stretched
+              size="m"
+              mode="outline"
+              onClick={go}
+              data-to="game"
+            >
+              {gameIsStarted ? "Продолжить игру" : "Начать игру"}
+            </Button>
+            <Button
+              size="m"
+              mode="outline"
+              onClick={() =>
+                window.open(
+                  "https://www.mosigra.ru/image/data/mosigra.product.other/543/674/SPY_rules_new.pdf",
+                  "_blank"
+                )
+              }
+            >
+              <Icon24InfoCircleOutline />
+            </Button>
+          </ButtonGroup>
+        </Div>
+      </Group>
+    </Panel>
+  );
+};
 
 Home.propTypes = {
   id: PropTypes.string.isRequired,
