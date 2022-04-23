@@ -15,13 +15,20 @@ import {
   Text,
   Paragraph,
   ButtonGroup,
+  Checkbox,
 } from "@vkontakte/vkui";
 
 import { Icon56UserSquareOutline } from "@vkontakte/icons";
 import { LOCATIONS, LOCATIONS_ARR } from "../utils/constant";
 
 import { useSelector, useDispatch } from "react-redux";
-import { start, end } from "../store/features/game";
+import {
+  start,
+  end,
+  setPlayers,
+  changePlayerName,
+  setSpyesId,
+} from "../store/features/game";
 
 import "./Game.css";
 
@@ -29,10 +36,14 @@ const Game = ({ id, go, openModal, timerValue, startTimer }) => {
   const [countOfPlayers, setCountOfPlayers] = useState(3);
   const [countOfSpyes, setCountOfSpyes] = useState(1);
   const [dealIsStart, setDealIsStart] = useState(false);
+  const [spyesFromOneOrgs, setSpyesFromOneOrgs] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [currentLocation, setCurrentLocation] = useState("");
   const [spyUsersId, setSpyUsersId] = useState([]);
   const gameIsStarted = useSelector((state) => state.game.value);
+  const players = useSelector((state) => state.game.players);
+  const spyesId = useSelector((state) => state.game.spyesId);
+  const locationsUserList = useSelector((state) => state.locations.locations);
   const dispatch = useDispatch();
 
   const divStyle = {
@@ -46,23 +57,40 @@ const Game = ({ id, go, openModal, timerValue, startTimer }) => {
     const { name, value } = e.currentTarget;
     if (name === "countOfPlayers") {
       setCountOfPlayers(value);
+      const players = {};
+      for (let i = 1; i <= value; i++) {
+        players[i] = `Игрок ${i}`;
+      }
+      dispatch(setPlayers(players));
     }
     if (name === "countOfSpyes") {
       setCountOfSpyes(value);
     }
+    if (name === "spyesFromOneOrgs") {
+      setSpyesFromOneOrgs(value);
+    }
+  };
+
+  const allLocations = () => {
+    let allLocations = LOCATIONS_ARR.map((id) => LOCATIONS[id]);
+    Object.keys(locationsUserList)?.forEach((id) =>
+      allLocations.push(locationsUserList[id])
+    );
+    return allLocations;
   };
 
   const dealLocations = () => {
     setDealIsStart(true);
     for (let i = 1; i <= countOfSpyes; i++) {
       let userId = Math.floor(Math.random() * countOfPlayers + 1);
-      if (spyUsersId.length > 0 && spyUsersId.includes(userId)) {
+      if (spyUsersId.length > 0 && !spyUsersId.includes(userId)) {
         userId = userId === countOfPlayers ? userId - 1 : userId + 1;
       }
       setSpyUsersId((arr) => [...arr, userId]);
     }
+    const _allLocations = allLocations();
     setCurrentLocation(
-      LOCATIONS[LOCATIONS_ARR[Math.round(Math.random() * LOCATIONS_ARR.length)]]
+      _allLocations[Math.round(Math.random() * _allLocations.length)]
     );
   };
 
@@ -70,6 +98,7 @@ const Game = ({ id, go, openModal, timerValue, startTimer }) => {
     setDealIsStart(false);
     dispatch(start());
     startTimer(countOfPlayers * 60);
+    dispatch(setSpyesId(spyUsersId));
   };
 
   const stopGame = () => {
@@ -101,6 +130,11 @@ const Game = ({ id, go, openModal, timerValue, startTimer }) => {
         ? "Количество шпионов подходит!"
         : "В игре может быть 1 или 2 шпиона!";
     }
+  };
+
+  const getSpyNames = () => {
+    const names = spyesId.map((id) => players[id]);
+    return names.join(", ");
   };
 
   return (
@@ -151,11 +185,43 @@ const Game = ({ id, go, openModal, timerValue, startTimer }) => {
                   onChange={onChange}
                 />
               </FormItem>
+              {countOfSpyes == 2 && (
+                <FormItem>
+                  <Checkbox
+                    name="spyesFromOneOrgs"
+                    onChange={onChange}
+                    value={spyesFromOneOrgs}
+                  >
+                    Шпионы работают на одну организацию?
+                  </Checkbox>
+                </FormItem>
+              )}
+              {Object.keys(players).map((playerId) => (
+                <FormItem top={`Введите имя игрока ${playerId}`}>
+                  <Input
+                    type="text"
+                    defaultValue={`${players[playerId]}`}
+                    onChange={(e) =>
+                      dispatch(
+                        changePlayerName({
+                          id: playerId,
+                          name: e.currentTarget.value,
+                        })
+                      )
+                    }
+                  />
+                </FormItem>
+              ))}
               <FormItem>
                 <Button
                   size="l"
                   stretched
                   mode="outline"
+                  disabled={
+                    getSpyesStatus() === "error" ||
+                    countOfPlayers < 3 ||
+                    countOfPlayers > 12
+                  }
                   onClick={dealLocations}
                 >
                   Начать раздачу карт!
@@ -168,7 +234,7 @@ const Game = ({ id, go, openModal, timerValue, startTimer }) => {
           <Div style={divStyle}>
             <Icon56UserSquareOutline />
             <Paragraph style={{ margin: 10 }}>
-              Игрок {currentPlayer}, ознакомтесь с локацией.
+              {players[currentPlayer]}, ознакомтесь с локацией.
             </Paragraph>
             <ButtonGroup stretched>
               <Button
@@ -179,7 +245,11 @@ const Game = ({ id, go, openModal, timerValue, startTimer }) => {
                 data-to="showLocation"
                 data-location={
                   spyUsersId.length > 0 && spyUsersId.includes(currentPlayer)
-                    ? "Вы шпион"
+                    ? spyesFromOneOrgs
+                      ? `Вы шпион вместе с ${
+                          players[spyUsersId.find((id) => id != currentPlayer)]
+                        }`
+                      : "Вы шпион"
                     : currentLocation
                 }
               >
@@ -216,6 +286,18 @@ const Game = ({ id, go, openModal, timerValue, startTimer }) => {
                 <Text>Кто шпион{countOfSpyes == 1 ? "" : "ы"}?</Text>
               </Div>
             )}
+            <ButtonGroup stretched>
+              <Button
+                size="l"
+                stretched
+                mode="outline"
+                onClick={openModal}
+                data-to="whoIsSpy"
+                data-spyNames={getSpyNames()}
+              >
+                Подсмотреть шпион{countOfSpyes == 1 ? "а" : "ов"}
+              </Button>
+            </ButtonGroup>
             {timerValue == "00:00" && (
               <ButtonGroup stretched>
                 <Button

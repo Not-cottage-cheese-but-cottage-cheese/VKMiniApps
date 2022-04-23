@@ -44,6 +44,19 @@ const Home = ({ id, go }) => {
               <Icon24InfoCircleOutline />
             </Button>
           </ButtonGroup>
+          {!gameIsStarted && (
+            <ButtonGroup style={{marginTop: 20}} mode="horizontal" gap="m" stretched>
+              <Button
+                stretched
+                size="m"
+                mode="outline"
+                onClick={go}
+                data-to="createLocations"
+              >
+                Добавить новые локации
+              </Button>
+            </ButtonGroup>
+          )}
         </Div>
       </Group>
     </Panel>

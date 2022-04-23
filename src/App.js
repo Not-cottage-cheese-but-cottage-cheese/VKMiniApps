@@ -32,11 +32,13 @@ import Home from "./panels/Home";
 import Game from "./panels/Game";
 
 import Locations from "./modals/Locations";
+import CreateLocations from "./panels/CreateLocations";
 
 const App = () => {
   const [scheme, setScheme] = useState("bright_light");
   const [activePanel, setActivePanel] = useState("home");
   const [activeModal, setActiveModal] = useState("");
+  const [spyNames, setSpyNames] = useState("");
   const [gameLocation, setGameLocation] = useState("");
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
   const platform = usePlatform();
@@ -93,14 +95,18 @@ const App = () => {
   };
 
   const openModal = (e) => {
-    if (e.currentTarget.dataset.location) {
+    if (e.currentTarget.dataset?.location) {
       setGameLocation(e.currentTarget.dataset.location);
+    }
+    if (e.currentTarget.dataset?.spynames) {
+      setSpyNames(e.currentTarget.dataset.spynames);
     }
     setActiveModal(e.currentTarget.dataset.to);
   };
 
   const modalClose = () => {
     setActiveModal("");
+    setSpyNames("");
     setGameLocation("");
   };
 
@@ -137,6 +143,12 @@ const App = () => {
         header="Текущая локация"
         subheader={gameLocation}
       />
+      <ModalCard
+        id="whoIsSpy"
+        onClose={modalClose}
+        header="Шпионы"
+        subheader={spyNames}
+      />
     </ModalRoot>
   );
 
@@ -149,6 +161,7 @@ const App = () => {
               <SplitCol>
                 <View activePanel={activePanel}>
                   <Home id="home" go={go} />
+                  <CreateLocations id="createLocations" go={go} />
                   <Game
                     id="game"
                     go={go}
