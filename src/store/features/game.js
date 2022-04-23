@@ -18,6 +18,15 @@ export const gameSlice = createSlice({
     end: (state) => {
       state.value = false;
     },
+    reset: (state) => {
+      state.value = false;
+      state.players = {
+        1: "Игрок 1",
+        2: "Игрок 2",
+        3: "Игрок 3",
+      };
+      state.spyesId = [];
+    },
     setPlayers: (state, payload) => {
       state.players = payload.payload;
     },
@@ -34,7 +43,7 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { start, end, setPlayers, changePlayerName, setSpyesId } =
+export const { start, end, setPlayers, changePlayerName, setSpyesId, reset } =
   gameSlice.actions;
 
 export default gameSlice.reducer;

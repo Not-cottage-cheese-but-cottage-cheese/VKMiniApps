@@ -57,11 +57,11 @@ const Game = ({ id, go, openModal, timerValue, startTimer }) => {
     const { name, value } = e.currentTarget;
     if (name === "countOfPlayers") {
       setCountOfPlayers(value);
-      const players = {};
+      const _players = {};
       for (let i = 1; i <= value; i++) {
-        players[i] = `Игрок ${i}`;
+        _players[i] = players[i] ? players[i] : `Игрок ${i}`;
       }
-      dispatch(setPlayers(players));
+      dispatch(setPlayers(_players));
     }
     if (name === "countOfSpyes") {
       setCountOfSpyes(value);
@@ -142,7 +142,7 @@ const Game = ({ id, go, openModal, timerValue, startTimer }) => {
       <PanelHeader left={<PanelHeaderBack onClick={go} data-to="home" />}>
         Находка для шпиона
       </PanelHeader>
-      <Group>
+      <Group style={{ paddingBottom: "40px" }}>
         {!dealIsStart && !gameIsStarted && (
           <Div>
             <Header>Подготовка к игре</Header>

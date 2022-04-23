@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Icon24InfoCircleOutline } from "@vkontakte/icons";
 
@@ -10,10 +10,16 @@ import {
   Div,
   ButtonGroup,
 } from "@vkontakte/vkui";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { reset } from "../store/features/game";
 
 const Home = ({ id, go }) => {
   const gameIsStarted = useSelector((state) => state.game.value);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(reset());
+  });
 
   return (
     <Panel id={id}>
@@ -45,7 +51,12 @@ const Home = ({ id, go }) => {
             </Button>
           </ButtonGroup>
           {!gameIsStarted && (
-            <ButtonGroup style={{marginTop: 20}} mode="horizontal" gap="m" stretched>
+            <ButtonGroup
+              style={{ marginTop: 20 }}
+              mode="horizontal"
+              gap="m"
+              stretched
+            >
               <Button
                 stretched
                 size="m"
