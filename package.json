@@ -1,5 +1,5 @@
 {
-  "name": "mini-app",
+  "name": "spyfall",
   "version": "0.1.0",
   "scripts": {
     "start": "cross-env PORT=10888 HTTPS=true react-scripts start",
