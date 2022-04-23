@@ -1,42 +1,41 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon28LocationOutline } from '@vkontakte/icons';
-import { Icon28Users3Outline } from '@vkontakte/icons';
+import { Icon24InfoCircleOutline } from "@vkontakte/icons";
 
 import {
   Panel,
   PanelHeader,
-  Header,
   Button,
   Group,
   Div,
-  Tabbar,
-  TabbarItem,
+  ButtonGroup,
 } from "@vkontakte/vkui";
 
-const Home = ({ id, go, openModal }) => (
+const Home = ({ id, go }) => (
   <Panel id={id}>
     <PanelHeader>Находка для шпиона</PanelHeader>
 
-    <Group header={<Header mode="secondary">Список локаций</Header>}>
+    <Group>
       <Div>
-        <Button
-          stretched
-          size="m"
-          mode="primary"
-          onClick={openModal}
-          data-to="locations"
-        >
-          Открыть список локаций
-        </Button>
+        <ButtonGroup mode="horizontal" gap="m" stretched>
+          <Button stretched size="m" mode="outline" onClick={go} data-to="game">
+            Начать игру
+          </Button>
+          <Button
+            size="m"
+            mode="outline"
+            onClick={() =>
+              window.open(
+                "https://www.mosigra.ru/image/data/mosigra.product.other/543/674/SPY_rules_new.pdf",
+                "_blank"
+              )
+            }
+          >
+            <Icon24InfoCircleOutline />
+          </Button>
+        </ButtonGroup>
       </Div>
     </Group>
-
-    <Tabbar>
-      <TabbarItem text="Локации" onClick={openModal} data-to="locations">
-        <Icon28LocationOutline />
-      </TabbarItem>
-    </Tabbar>
   </Panel>
 );
 

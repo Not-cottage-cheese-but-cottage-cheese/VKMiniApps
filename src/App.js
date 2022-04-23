@@ -8,6 +8,8 @@ import {
   ConfigProvider,
   SplitLayout,
   SplitCol,
+  Tabbar,
+  TabbarItem,
   ModalRoot,
   ModalPage,
   ModalPageHeader,
@@ -17,17 +19,21 @@ import {
   IOS,
   ANDROID,
   VKCOM,
+  ModalCard,
 } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
+import { Icon24Dismiss, Icon28LocationOutline } from "@vkontakte/icons";
 
 import Home from "./panels/Home";
+import Game from "./panels/Game";
+
 import Locations from "./modals/Locations";
-import { Icon24Dismiss } from "@vkontakte/icons";
 
 const App = () => {
   const [scheme, setScheme] = useState("bright_light");
   const [activePanel, setActivePanel] = useState("home");
   const [activeModal, setActiveModal] = useState("");
+  const [gameLocation, setGameLocation] = useState("");
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
   const platform = usePlatform();
 
@@ -45,11 +51,15 @@ const App = () => {
   };
 
   const openModal = (e) => {
+    if (e.currentTarget.dataset.location) {
+      setGameLocation(e.currentTarget.dataset.location);
+    }
     setActiveModal(e.currentTarget.dataset.to);
   };
 
   const modalClose = () => {
     setActiveModal("");
+    setGameLocation("");
   };
 
   const modal = (
@@ -79,6 +89,29 @@ const App = () => {
       >
         <Locations />
       </ModalPage>
+      <ModalCard
+        id="showLocation"
+        onClose={modalClose}
+        header={
+          <ModalPageHeader
+            left={
+              (platform === ANDROID || platform === VKCOM) && (
+                <PanelHeaderClose onClick={modalClose} />
+              )
+            }
+            right={
+              platform === IOS && (
+                <PanelHeaderButton onClick={modalClose}>
+                  <Icon24Dismiss />
+                </PanelHeaderButton>
+              )
+            }
+          >
+            Текущая локация
+          </ModalPageHeader>
+        }
+        subheader={gameLocation}
+      />
     </ModalRoot>
   );
 
@@ -89,8 +122,18 @@ const App = () => {
           <SplitLayout popout={popout} modal={modal}>
             <SplitCol>
               <View activePanel={activePanel}>
-                <Home id="home" go={go} openModal={openModal} />
+                <Home id="home" go={go} />
+                <Game id="game" go={go} openModal={openModal} />
               </View>
+              <Tabbar>
+                <TabbarItem
+                  text="Все локации"
+                  onClick={openModal}
+                  data-to="locations"
+                >
+                  <Icon28LocationOutline />
+                </TabbarItem>
+              </Tabbar>
             </SplitCol>
           </SplitLayout>
         </AppRoot>

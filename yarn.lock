@@ -1880,10 +1880,10 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
-"@vkontakte/icons@1.141.1":
-  version "1.141.1"
-  resolved "https://registry.yarnpkg.com/@vkontakte/icons/-/icons-1.141.1.tgz#2235deda5e657b7b136a582e40596b58692e32a3"
-  integrity sha512-bfhqqNGmdT4vPjpVeR4kKJ3SBt73sFHYnb3HT8+I4Cvcoa9thQsZTe5bHqhGCiLBrev1bD2/5YwAybU0ifAq2A==
+"@vkontakte/icons@1.152.0":
+  version "1.152.0"
+  resolved "https://registry.yarnpkg.com/@vkontakte/icons/-/icons-1.152.0.tgz#9098e75c3e0ec64e553c5c37a9e551766cb8e138"
+  integrity sha512-UNB6nJfH1r+0Qj3tKktwv8czMPRzehyjsQCp8JVujpFUYnIwz43LjgxO68v7ZmRIHPkfGvhuMj134RXOXi4k5g==
   dependencies:
     es6-object-assign "1.1.0"
     svg-baker-runtime "1.4.7"
@@ -1909,25 +1909,20 @@
     require-module "^0.1.0"
     zip-a-folder "0.0.12"
 
-"@vkontakte/vkjs@0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@vkontakte/vkjs/-/vkjs-0.20.0.tgz#ddb9367649ab7e79754b9906c3f6e1960f624c37"
-  integrity sha512-bocEj9pcr6i6F0LN288xU3PX1MI4OJ3ZJXTa6kFx9IqEgk0CnoMtLAcuH2D7DzZAnc83DJCa/tuo9mT7XW035A==
-
-"@vkontakte/vkjs@^0.22.2":
+"@vkontakte/vkjs@0.22.2", "@vkontakte/vkjs@^0.22.2":
   version "0.22.2"
   resolved "https://registry.yarnpkg.com/@vkontakte/vkjs/-/vkjs-0.22.2.tgz#b530195b009bb598289a6c6382f1c35c4d1e66c2"
   integrity sha512-dOnRGhcKzCuex/RRTmi74uckqAQtGcVPhsKXSptmKz1/KqVt6WpmOT2rrr2rPyyWcfjHBbPwnF8A4Z0jkFz+Zg==
 
-"@vkontakte/vkui@4.28.1":
-  version "4.28.1"
-  resolved "https://registry.yarnpkg.com/@vkontakte/vkui/-/vkui-4.28.1.tgz#811e1b3e02309065a36a4459515420927c3e792d"
-  integrity sha512-0K/vJaABbMK9C5bn6iVokaPK7VeIjEcXs26Z96toz5ScRfII1ngqVT7sQh1qPfWTTeBF7/StbmPEJB+Rakx+1Q==
+"@vkontakte/vkui@4.29.0":
+  version "4.29.0"
+  resolved "https://registry.yarnpkg.com/@vkontakte/vkui/-/vkui-4.29.0.tgz#1db8a60b01de938f8bd32489140594db599bade8"
+  integrity sha512-cTdpMQO2dOlQiMfMkS4wVaiGOL3o3LhI5nx5ZNLLsaV7+mIWghwknRcPU1R2eVDukpsn1+4fhdi2OzlLqPpnDQ==
   dependencies:
     "@babel/runtime" "^7.14.6"
     "@popperjs/core" "^2.9.2"
     "@vkontakte/vkjs" "^0.22.2"
-    date-fns "^2.28.0"
+    dayjs "^1.11.0"
     mitt "^3.0.0"
     react-popper "^2.2.5"
 
@@ -3934,10 +3929,10 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
-date-fns@^2.28.0:
-  version "2.28.0"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
-  integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
+dayjs@^1.11.0:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.1.tgz#90b33a3dda3417258d48ad2771b415def6545eb0"
+  integrity sha512-ER7EjqVAMkRRsxNCC5YqJ9d9VQYuWdGt7aiH2qA5R5wt8ZmWaP2dLUSIK6y/kVzLMlmh1Tvu5xUf4M/wdGJ5KA==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"
